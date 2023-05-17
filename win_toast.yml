@@ -1,20 +1,6 @@
 ---
-- name: Check reachable hosts
-  hosts: all
-  gather_facts: no
-  tasks:
-    - name: Ping hosts
-      win_ping:
-      register: ping_result
-      ignore_errors: yes
-
-    - name: Group by reachable hosts
-      group_by:
-        key: reachable
-      when: ping_result is success
-      
 - name: Display toast message on reachable hosts
-  hosts: reachable
+  hosts: all
   gather_facts: no
   tasks:
 - name: Warn logged in users of impending upgrade (note use of async to stop the module from waiting until notification expires).
