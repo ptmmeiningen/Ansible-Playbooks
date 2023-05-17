@@ -1,6 +1,6 @@
 ---
-- name: Test Ping
-  hosts: windowsservers
+- name: WinPing
+  hosts: all
   gather_facts: no
 
   tasks:
