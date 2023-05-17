@@ -1,34 +1,28 @@
 ---
 - name: Check reachable hosts
   hosts: windowsservers
-  vars:
-    ping_seconds: 4
   gather_facts: no
   tasks:
-    - name: Ping command
-      command: ping -c{{ ping_seconds }} {{ inventory_hostname }}
+    - command: ping -c{{ ping_seconds }} {{ inventory_hostname }}
       delegate_to: localhost
       register: ping_result
       ignore_errors: yes
-    - name: Group by reachable
-      group_by:
-        key: reachable
-      when: ping_result.rc == 0
+    - group_by: key=reachable
+      when: ping_result is success
 
 - name: Test Popup Message
-  hosts: windowsservers
-  vars:
-    popup_display_seconds: 60
-    popup_msg: "Test"
+  hosts: reachable
   gather_facts: no
+
   tasks:        
     - name: Test 1
       community.windows.win_msg:
-        display_seconds: "{{ popup_display_seconds }}"
-        msg: "{{ popup_msg }}"
-      when: "'reachable' in group_names"
+        display_seconds: {{ popup_display_seconds }}
+        #msg: {{ popup_msg }}
+        #display_seconds: 60
+        msg: Test
 
-        
+  
     #- name: Test 2
     #  community.windows.win_say:
     #    msg: Hallo Hallo, das ist ein Test. Test 1 2 3. Du Arschloch, Hömma.
