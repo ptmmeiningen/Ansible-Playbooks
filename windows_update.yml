@@ -14,6 +14,8 @@
       when: ping_result is success
       
 - name: Install all security, critical, and rollup updates without a scheduled task
+  hosts: reachable
+  gather_facts: no
   ansible.windows.win_updates:
     category_names:
       - SecurityUpdates
