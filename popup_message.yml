@@ -21,5 +21,4 @@
       community.windows.win_msg:
         msg: "Test"
         display_seconds: 60
-        to: all
 ...
