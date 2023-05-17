@@ -23,7 +23,7 @@
     - name: Test 1
       community.windows.win_msg:
         display_seconds: "{{ popup_display_seconds }}"
-        msg: {{ popup_msg }}
+        msg: "{{ popup_msg }}"
         
     #- name: Test 2
     #  community.windows.win_say:
