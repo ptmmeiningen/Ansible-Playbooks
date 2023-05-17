@@ -12,6 +12,7 @@
       group_by:
         key: reachable
       when: ping_result is success
+      
 - name: Update and reboot Windows servers
   hosts: all
   gather_facts: no
