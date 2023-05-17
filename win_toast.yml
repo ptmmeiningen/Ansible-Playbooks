@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: no
   tasks:
-- name: Warn logged in users of impending upgrade (note use of async to stop the module from waiting until notification expires).
+- name: Test
   community.windows.win_toast:
     expire: 60
     title: System Upgrade Notification
