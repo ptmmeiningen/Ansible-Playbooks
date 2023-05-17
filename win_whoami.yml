@@ -15,6 +15,7 @@
       
 - name: Test windows whoami
   hosts: reachable
+  gather_facts: no
   strategy: free
   tasks:
    - name: windows whoami command
