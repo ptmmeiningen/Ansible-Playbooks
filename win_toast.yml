@@ -1,5 +1,5 @@
 ---
-- name: Check reachable hosts
+- name: check reachable hosts
   hosts: all
   gather_facts: no
   tasks:
@@ -13,7 +13,7 @@
         key: reachable
       when: ping_result is success
       
-- name: Display toast message on reachable hosts
+- name: display toast message on reachable hosts
   hosts: reachable
   vars:
     deployment_start_time: "20:00 Uhr"
