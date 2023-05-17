@@ -15,10 +15,13 @@
 
 - name: Display popup message on reachable hosts
   hosts: reachable
+  vars:
+    popup_display_seconds: 60
+    popup_msg: "Test"
   gather_facts: no
   tasks:
     - name: Display popup message
       community.windows.win_msg:
-        msg: "Test"
-        display_seconds: 60
+        msg: "{{ popup_msg }}"
+        display_seconds: "{{ popup_display_seconds }}"
 ...
