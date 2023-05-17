@@ -6,7 +6,7 @@
   gather_facts: no
   tasks:
     - name: Ping command
-      win_shell: ping -n {{ ping_seconds }} {{ inventory_hostname }}
+      command: ping -c{{ ping_seconds }} {{ inventory_hostname }}
       delegate_to: localhost
       register: ping_result
       ignore_errors: yes
