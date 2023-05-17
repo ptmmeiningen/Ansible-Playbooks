@@ -1,26 +1,33 @@
 ---
 - name: Check reachable hosts
   hosts: windowsservers
+  vars:
+    ping_seconds: 4
   gather_facts: no
   tasks:
-    - command: ping -c{{ ping_seconds }} {{ inventory_hostname }}
+    - name: Ping command
+      win_shell: ping -n {{ ping_seconds }} {{ inventory_hostname }}
       delegate_to: localhost
       register: ping_result
       ignore_errors: yes
-    - group_by: key=reachable
-      when: ping_result is success
+    - name: Group by reachable
+      group_by:
+        key: reachable
+      when: ping_result.rc == 0
 
 - name: Test Popup Message
-  hosts: reachable
+  hosts: windowsservers
+  vars:
+    popup_display_seconds: 60
+    popup_msg: "Test"
   gather_facts: no
- 
   tasks:        
     - name: Test 1
       community.windows.win_msg:
-        display_seconds: {{ popup_display_seconds }}
-        #msg: {{ popup_msg }}
-        #display_seconds: 60
-        msg: Test
+        display_seconds: "{{ popup_display_seconds }}"
+        msg: "{{ popup_msg }}"
+      when: "'reachable' in group_names"
+
         
     #- name: Test 2
     #  community.windows.win_say:
