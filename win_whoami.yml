@@ -1,5 +1,5 @@
 ---
-- name: check reachable hosts
+- name: Check reachable hosts
   hosts: all
   gather_facts: no
   tasks:
@@ -13,7 +13,7 @@
         key: reachable
       when: ping_result is success
       
-- name: test windows whoami
+- name: Test windows whoami
   hosts: reachable
   strategy: free
   tasks:
