@@ -1,0 +1,44 @@
+---
+- name: Check reachable hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping hosts
+      win_ping:
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Group by reachable hosts
+      group_by:
+        key: reachable
+      when: ping_result is success
+
+- name: Display popup message on reachable hosts
+  hosts: reachable
+  vars:
+    popup_display_seconds: 60
+    popup_msg: "Test"
+  gather_facts: no
+  tasks:
+    - name: Warn of impending deployment
+      community.windows.win_say:
+        msg: Warning, deployment commencing in 5 minutes, please log out.
+
+    - name: Using a different voice and a start sound
+      community.windows.win_say:
+        start_sound_path: C:\Windows\Media\ding.wav
+        msg: Warning, deployment commencing in 5 minutes, please log out.
+        voice: Microsoft Hazel Desktop
+
+    - name: With start and end sound
+      community.windows.win_say:
+        start_sound_path: C:\Windows\Media\Windows Balloon.wav
+        msg: New software installed
+        end_sound_path: C:\Windows\Media\chimes.wav
+
+    - name: Text from file example
+      community.windows.win_say:
+        start_sound_path: C:\Windows\Media\Windows Balloon.wav
+        msg_file: AppData\Local\Temp\morning_report.txt
+        end_sound_path: C:\Windows\Media\chimes.wav
+...
