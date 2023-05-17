@@ -1,0 +1,25 @@
+---
+- name: Check reachable hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping hosts
+      win_ping:
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Group by reachable hosts
+      group_by:
+        key: reachable
+      when: ping_result is success
+
+- name: Display popup message on reachable hosts
+  hosts: reachable
+  gather_facts: no
+  tasks:
+    - name: Display popup message
+      community.windows.win_msg:
+        msg: "Test"
+        display_seconds: 60
+        to: all
+...
