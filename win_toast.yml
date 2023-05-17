@@ -12,7 +12,11 @@
       group_by:
         key: reachable
       when: ping_result is success
-
+      
+- name: Display toast message on reachable hosts
+  hosts: reachable
+  gather_facts: no
+  tasks:
 - name: Warn logged in users of impending upgrade (note use of async to stop the module from waiting until notification expires).
   community.windows.win_toast:
     expire: 60
