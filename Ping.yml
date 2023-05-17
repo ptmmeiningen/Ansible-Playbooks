@@ -1,0 +1,10 @@
+---
+- name: Ping
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+  
+  - name: Ping
+    ping:
