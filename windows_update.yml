@@ -1,24 +1,15 @@
 ---
-- name: Check reachable hosts
+- name: Update and reboot Windows servers
   hosts: all
   gather_facts: no
   tasks:
-    - name: Ping hosts
-      win_ping:
-      register: ping_result
-      ignore_errors: yes
+    - name: Update all packages
+      ansible.windows.win_updates:
+        category_names: 'all'
+        log_path: 'c:\ansible_wu.txt'
+      register: result
 
-    - name: Group by reachable hosts
-      group_by:
-        key: reachable
-      when: ping_result is success
-      
-- name: Install all security, critical, and rollup updates without a scheduled task
-  hosts: reachable
-  gather_facts: no
-  ansible.windows.win_updates:
-    category_names:
-      - SecurityUpdates
-      - CriticalUpdates
-      - UpdateRollups
+    - name: Reboot the server if necessary
+      ansible.windows.win_reboot:
+      when: result.reboot_required
 ...
