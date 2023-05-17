@@ -1,5 +1,5 @@
 ---
-- name: Check reachable hosts
+- name: check reachable hosts
   hosts: all
   gather_facts: no
   tasks:
