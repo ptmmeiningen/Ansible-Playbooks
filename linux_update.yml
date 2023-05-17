@@ -1,0 +1,20 @@
+---
+- name: Update and reboot Ubuntu 20.04 servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update all packages
+      apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: Check if a reboot is needed
+      command: "[ -f /var/run/reboot-required ]"
+      changed_when: false
+      register: reboot_required
+      ignore_errors: yes
+
+    - name: Reboot the server
+      reboot:
+      when: reboot_required.rc == 0 and inventory_hostname not in ['ptmvm05', 'ptmvm13']
+...
