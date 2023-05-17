@@ -1,0 +1,9 @@
+---
+- name: Test Ping
+  hosts: windowsservers
+  gather_facts: no
+
+  tasks:
+  
+  - name: Ping
+    win_ping:
