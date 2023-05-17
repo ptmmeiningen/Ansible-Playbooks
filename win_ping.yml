@@ -7,3 +7,6 @@
   
   - name: Ping
     win_ping:
+    
+- name: generate native .NET images for CPU
+  win_dotnet_ngen:
