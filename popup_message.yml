@@ -1,0 +1,27 @@
+---
+- name: Check reachable hosts
+  hosts: windowsservers
+  gather_facts: no
+  tasks:
+    - command: ping -c{{ ping_seconds }} {{ inventory_hostname }}
+      delegate_to: localhost
+      register: ping_result
+      ignore_errors: yes
+    - group_by: key=reachable
+      when: ping_result is success
+
+- name: Test Popup Message
+  hosts: reachable
+  gather_facts: no
+ 
+  tasks:        
+    - name: Test 1
+      community.windows.win_msg:
+        display_seconds: {{ popup_display_seconds }}
+        #msg: {{ popup_msg }}
+        #display_seconds: 60
+        msg: Test
+        
+    #- name: Test 2
+    #  community.windows.win_say:
+    #    msg: Hallo Hallo, das ist ein Test. Test 1 2 3. Du Arschloch, Hömma.
