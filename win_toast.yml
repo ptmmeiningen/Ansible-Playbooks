@@ -3,11 +3,11 @@
   hosts: all
   gather_facts: no
   tasks:
-- name: Test
-  community.windows.win_toast:
-    expire: 60
-    title: System Upgrade Notification
-    msg: Automated upgrade about to start.  Please save your work and log off before {{ deployment_start_time }}
-  async: 60
-  poll: 0
+  - name: Test
+    community.windows.win_toast:
+      expire: 60
+      title: System Upgrade Notification
+      msg: Automated upgrade about to start.  Please save your work and log off before {{ deployment_start_time }}
+    async: 60
+    poll: 0
 ...
