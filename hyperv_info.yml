@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Check CPU usage
+    win_shell: |
+      $localCPUs = (Get-WmiObject -Class Win32_ComputerSystem).NumberOfLogicalProcessors
+
+      $totalVMCPUs = 0
+
+      if (Get-Command -Name Get-VM -ErrorAction SilentlyContinue) {
+          $VMs = Get-VM
+
+          foreach ($VM in $VMs) {
+              $totalVMCPUs += $VM.ProcessorCount
+          }
+      }
+
+      if ($totalVMCPUs -gt $localCPUs) {
+          "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet die Anzahl der lokalen CPUs!"
+      } else {
+          "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet NICHT die Anzahl der lokalen CPUs."
+      }
+    register: shell_output
+
+  - name: Show output
+    debug:
+      msg: "{{ shell_output.stdout_lines }}"
