@@ -8,5 +8,5 @@
   
   - name: Ping
     win_ping:
-    async: 120 # Maximum allowed time in Seconds
-    poll: 05 # Polling Interval in Seconds
+    #async: 120 # Maximum allowed time in Seconds
+    #poll: 05 # Polling Interval in Seconds
