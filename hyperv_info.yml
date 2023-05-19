@@ -16,11 +16,16 @@
           }
       }
 
+      $output = "Anzahl der lokalen logischen CPUs: " + $localCPUs + "`n" +
+                "Anzahl der CPUs, die von Hyper-V VMs verwendet werden: " + $totalVMCPUs + "`n"
+
       if ($totalVMCPUs -gt $localCPUs) {
-          "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet die Anzahl der lokalen CPUs!"
+          $output += "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet die Anzahl der lokalen CPUs!"
       } else {
-          "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet NICHT die Anzahl der lokalen CPUs."
+          $output += "Die Anzahl der CPUs, die von den VMs verwendet werden, überschreitet NICHT die Anzahl der lokalen CPUs."
       }
+
+      $output
     register: shell_output
 
   - name: Show output
