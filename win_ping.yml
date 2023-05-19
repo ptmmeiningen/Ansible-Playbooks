@@ -1,7 +1,7 @@
 ---
 - name: WinPing
   hosts: all
-  strategy: free
+  strategy: free #https://www.redhat.com/sysadmin/faster-ansible-playbook-execution
   gather_facts: no
 
   tasks:
