@@ -1,0 +1,28 @@
+---
+- name: Check reachable hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping hosts
+      win_ping:
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Group by reachable hosts
+      group_by:
+        key: reachable
+      when: ping_result is success
+      
+- name: Install CrowdSec agent on Windows
+  hosts: reachable
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Download CrowdSec installer
+      win_get_url:
+        url: "https://github.com/crowdsecurity/crowdsec/releases/download/v1.5.1/crowdsec_1.5.1.msi"
+        dest: "C:\temp\crowdsec_1.5.1.msi"
+
+    - name: Install CrowdSec agent
+      win_shell: "C:\temp\crowdsec_1.5.1.msi /S"
+...
