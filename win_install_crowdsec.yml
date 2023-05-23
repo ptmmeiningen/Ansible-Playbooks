@@ -69,7 +69,7 @@
         dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
 
     - name: Install cs-windows-firewall-bouncer
-      win_shell: "C:\Temp\cs_windows_firewall_bouncer_setup.msi /S"
+      win_shell: C:\Temp\cs_windows_firewall_bouncer_setup.msi /S
 
     - name: Remove cs-windows-firewall-bouncer MSI
       win_file:
