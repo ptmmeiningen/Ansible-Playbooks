@@ -95,8 +95,7 @@
 
   tasks:
   - name: Enroll an Crowdsec instance
-    win_shell: |
-      Start-Process cmd.exe "/C cscli console enroll clh4u3dun0000kz08pp6h8b3t" -Verb runAs
+    win_command: cscli console enroll clh4u3dun0000kz08pp6h8b3f
     register: output
 
   - name: Display output
