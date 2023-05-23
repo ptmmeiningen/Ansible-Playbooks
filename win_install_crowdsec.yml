@@ -24,7 +24,7 @@
 
     - name: Install .NET 6.0
       win_shell: |
-        Start-Process -Wait -FilePath C:\Temp\dotnet-sdk-6.0.100-preview.7.21379.14-win-x64.exe -ArgumentList '/quiet /norestart'
+        Start-Process -Wait -FilePath C:\Temp\dotnet-runtime-6.0.16-win-x64.exe -ArgumentList '/quiet /norestart'
 
     - name: Remove .NET 6.0 installer
       win_file:
