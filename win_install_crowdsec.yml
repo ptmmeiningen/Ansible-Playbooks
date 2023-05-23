@@ -15,7 +15,7 @@
       
 - name: Install .NET 6.0 on Windows
   hosts: reachable
-  gather_facts: false
+  gather_facts: no
   tasks:
     - name: Download .NET 6.0 installer
       win_get_url:
@@ -34,7 +34,6 @@
 - name: Enable Windows Defender Firewall logging
   hosts: reachable
   gather_facts: no
-  #become: true
   tasks:
     - name: Set Windows Defender Firewall logging
       win_shell: |
@@ -43,9 +42,6 @@
           Set-NetFirewallProfile -Name $profile.Name -LogAllowed True
           Set-NetFirewallProfile -Name $profile.Name -LogBlocked True
         }
-      #become: yes
-      #become_method: runas
-      #become_user: Administrator
       register: result
     - debug:
         var: result
@@ -73,9 +69,7 @@
         dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
 
     - name: Install cs-windows-firewall-bouncer
-      ansible.windows.win_package:
-        path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
-        state: present
+      win_shell: "C:\Temp\cs_windows_firewall_bouncer_setup.msi /S"
 
     - name: Remove cs-windows-firewall-bouncer MSI
       win_file:
