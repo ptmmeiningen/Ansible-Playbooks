@@ -12,6 +12,24 @@
       group_by:
         key: reachable
       when: ping_result is success
+      
+- name: Install .NET 6.0 on Windows
+  hosts: reachable
+  gather_facts: false
+  tasks:
+    - name: Download .NET 6.0 installer
+      win_get_url:
+        url: https://download.visualstudio.microsoft.com/download/pr/456fdf02-f100-4664-916d-fd46c192efea/619bbd8426537632b7598b4c7c467cf1/dotnet-runtime-6.0.16-win-x64.exe
+        dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
+
+    - name: Install .NET 6.0
+      win_shell: |
+        Start-Process -Wait -FilePath C:\Temp\dotnet-sdk-6.0.100-preview.7.21379.14-win-x64.exe -ArgumentList '/quiet /norestart'
+
+    - name: Remove .NET 6.0 installer
+      win_file:
+        path: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
+        state: absent
 
 - name: Enable Windows Defender Firewall logging
   hosts: reachable
