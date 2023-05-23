@@ -62,4 +62,23 @@
 
 #    - name: Install CrowdSec agent
 #      win_shell: "C:\temp\crowdsec_1.5.1.msi /S"
+
+- name: Download and Install cs-windows-firewall-bouncer
+  hosts: reachable
+  gather_facts: false
+  tasks:
+    - name: Download cs-windows-firewall-bouncer MSI
+      win_get_url:
+        url: https://github.com/crowdsecurity/cs-windows-firewall-bouncer/releases/download/v0.0.5/cs_windows_firewall_bouncer_setup.msi
+        dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
+
+    - name: Install cs-windows-firewall-bouncer
+      win_msi:
+        path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
+        state: present
+
+    - name: Remove cs-windows-firewall-bouncer MSI
+      win_file:
+        path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
+        state: absent
 ...
