@@ -16,6 +16,7 @@
 - name: Enable Windows Defender Firewall logging
   hosts: reachable
   gather_facts: no
+  become: true
   tasks:
     - name: Set Windows Defender Firewall logging
       win_shell: |
@@ -24,7 +25,7 @@
           Set-NetFirewallProfile -Name $profile.Name -LogAllowed True
           Set-NetFirewallProfile -Name $profile.Name -LogBlocked True
         }
-      become: yes
+      #become: yes
       #become_method: runas
       #become_user: Administrator
       register: result
