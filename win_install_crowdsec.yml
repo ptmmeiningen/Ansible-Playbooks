@@ -23,13 +23,6 @@
         dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
 
     - name: Install .NET 6.0
-      # win_package:
-      #   path: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
-      #   product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
-      #   arguments:
-      #   - --install
-      #   - --quiet
-      #   - --norestart
       win_shell: |
         Start-Process -Wait -FilePath C:\Temp\dotnet-runtime-6.0.16-win-x64.exe -ArgumentList '/install /quiet /norestart'
       args:
@@ -40,21 +33,21 @@
         path: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
         state: absent
 
-# - name: Enable Windows Defender Firewall logging
-#   hosts: reachable
-#   gather_facts: no
-#   tasks:
-#     - name: Set Windows Defender Firewall logging
-#       win_shell: |
-#         $settings = Get-NetFirewallProfile | Where-Object {$_.Name -eq "Domain" -or $_.Name -eq "Private" -or $_.Name -eq "Public"}
-#         foreach ($profile in $settings) {
-#           Set-NetFirewallProfile -Name $profile.Name -LogAllowed True
-#           Set-NetFirewallProfile -Name $profile.Name -LogBlocked True
-#         }
-#       register: result
+- name: Enable Windows Defender Firewall logging
+  hosts: reachable
+  gather_facts: no
+  tasks:
+    - name: Set Windows Defender Firewall logging
+      win_shell: |
+        $settings = Get-NetFirewallProfile | Where-Object {$_.Name -eq "Domain" -or $_.Name -eq "Private" -or $_.Name -eq "Public"}
+        foreach ($profile in $settings) {
+          Set-NetFirewallProfile -Name $profile.Name -LogAllowed True
+          Set-NetFirewallProfile -Name $profile.Name -LogBlocked True
+        }
+      register: result
       
-#     - debug:
-#         var: result
+    - debug:
+        var: result
 
 - name: Install CrowdSec agent on Windows
   hosts: reachable
@@ -66,11 +59,15 @@
         dest: C:\temp\crowdsec_1.5.1.msi
 
     - name: Install CrowdSec agent
-      #win_shell: C:\temp\crowdsec_1.5.1.msi /S
       win_package:
         path: C:\temp\crowdsec_1.5.1.msi
         product_id: '{7795C40F-5278-4AF6-B2FF-D2E7CACC678F}'
         state: present
+
+    - name: Remove CrowdSec agent
+      win_file:
+        path: C:\temp\crowdsec_1.5.1.msi
+        state: absent 
 
 - name: Install cs-windows-firewall-bouncer
   hosts: reachable
@@ -82,7 +79,6 @@
         dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
 
     - name: Install cs-windows-firewall-bouncer
-      #win_shell: C:\Temp\cs_windows_firewall_bouncer_setup.msi /S
       win_package:
         path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
         product_id: '{C6F28E13-50FC-4D71-B6D9-B4C92C3CB6DB}'
@@ -92,4 +88,18 @@
       win_file:
         path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
         state: absent 
+
+- name: Run command as admin and display output
+  hosts: windows
+  gather_facts: no
+
+  tasks:
+  - name: Enroll an Crowdsec instance
+    win_shell: |
+      Start-Process cmd.exe "/C cscli console enroll clh4u3dun0000kz08pp6h8b3t" -Verb runAs
+    register: output
+
+  - name: Display output
+    debug:
+      var: output.stdout_lines
 ...
