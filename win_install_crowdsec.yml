@@ -54,10 +54,10 @@
     - name: Download CrowdSec installer
       win_get_url:
         url: file:////ptmvm02/Deployment/CrowdSec/crowdsec_1.5.1.msi
-        dest: "C:\temp\crowdsec_1.5.1.msi"
+        dest: C:\temp\crowdsec_1.5.1.msi
 
     - name: Install CrowdSec agent
-      win_shell: "C:\temp\crowdsec_1.5.1.msi /S"
+      win_shell: C:\temp\crowdsec_1.5.1.msi /S
 
 - name: Download and Install cs-windows-firewall-bouncer
   hosts: reachable
