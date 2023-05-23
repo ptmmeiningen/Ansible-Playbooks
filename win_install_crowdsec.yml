@@ -90,7 +90,7 @@
         state: absent 
 
 - name: Run command as admin and display output
-  hosts: windows
+  hosts: reachable
   gather_facts: no
 
   tasks:
