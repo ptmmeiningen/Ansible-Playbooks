@@ -73,7 +73,7 @@
         dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
 
     - name: Install cs-windows-firewall-bouncer
-      win_msi:
+      ansible.windows.win_package::
         path: C:\Temp\cs_windows_firewall_bouncer_setup.msi
         state: present
 
