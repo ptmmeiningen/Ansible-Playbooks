@@ -1,6 +1,8 @@
 ---
 - name: Check reachable hosts
   hosts: all
+  collections:
+    - community.windows
   gather_facts: no
   tasks:
     - name: Ping hosts
