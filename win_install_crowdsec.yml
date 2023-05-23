@@ -16,7 +16,7 @@
 - name: Enable Windows Defender Firewall logging
   hosts: reachable
   gather_facts: no
-  become: true
+  #become: true
   tasks:
     - name: Set Windows Defender Firewall logging
       win_shell: |
