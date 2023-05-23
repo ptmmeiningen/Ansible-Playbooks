@@ -23,13 +23,15 @@
         dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
 
     - name: Install .NET 6.0
-      win_package:
-        path: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
-        product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
-        arguments:
-        - --install
-        - --quiet
-        - --norestart
+      # win_package:
+      #   path: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
+      #   product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
+      #   arguments:
+      #   - --install
+      #   - --quiet
+      #   - --norestart
+      win_shell: |
+        Start-Process -Wait -FilePath C:\Temp\dotnet-runtime-6.0.16-win-x64.exe -ArgumentList '/install /quiet /norestart'
 
     - name: Remove .NET 6.0 installer
       win_file:
