@@ -19,7 +19,7 @@
   tasks:
     - name: Download .NET 6.0 installer
       win_get_url:
-        url: https://download.visualstudio.microsoft.com/download/pr/456fdf02-f100-4664-916d-fd46c192efea/619bbd8426537632b7598b4c7c467cf1/dotnet-runtime-6.0.16-win-x64.exe
+        url: file:////ptmvm02/Deployment/CrowdSec/dotnet-runtime-6.0.16-win-x64.exe
         dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
 
     - name: Install .NET 6.0
@@ -46,26 +46,26 @@
     - debug:
         var: result
 
-#- name: Install CrowdSec agent on Windows
-#  hosts: reachable
-#  gather_facts: no
-#  become: true
-#  tasks:
-#    - name: Download CrowdSec installer
-#      win_get_url:
-#        url: "https://github.com/crowdsecurity/crowdsec/releases/download/v1.5.1/crowdsec_1.5.1.msi"
-#        dest: "C:\temp\crowdsec_1.5.1.msi"
+- name: Install CrowdSec agent on Windows
+  hosts: reachable
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Download CrowdSec installer
+      win_get_url:
+        url: file:////ptmvm02/Deployment/CrowdSec/crowdsec_1.5.1.msi
+        dest: "C:\temp\crowdsec_1.5.1.msi"
 
-#    - name: Install CrowdSec agent
-#      win_shell: "C:\temp\crowdsec_1.5.1.msi /S"
+    - name: Install CrowdSec agent
+      win_shell: "C:\temp\crowdsec_1.5.1.msi /S"
 
 - name: Download and Install cs-windows-firewall-bouncer
   hosts: reachable
-  gather_facts: false
+  gather_facts: no
   tasks:
     - name: Download cs-windows-firewall-bouncer MSI
       win_get_url:
-        url: https://github.com/crowdsecurity/cs-windows-firewall-bouncer/releases/download/v0.0.5/cs_windows_firewall_bouncer_setup.msi
+        url: file:////ptmvm02/Deployment/CrowdSec/cs_windows_firewall_bouncer_setup.msi
         dest: C:\Temp\cs_windows_firewall_bouncer_setup.msi
 
     - name: Install cs-windows-firewall-bouncer
