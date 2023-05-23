@@ -43,13 +43,13 @@
           Set-NetFirewallProfile -Name $profile.Name -LogBlocked True
         }
       register: result
+      
     - debug:
         var: result
 
 - name: Install CrowdSec agent on Windows
   hosts: reachable
   gather_facts: no
-  become: true
   tasks:
     - name: Download CrowdSec installer
       win_get_url:
