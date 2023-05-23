@@ -1,8 +1,6 @@
 ---
 - name: Check reachable hosts
   hosts: all
-  collections:
-    - community.windows
   gather_facts: no
   tasks:
     - name: Ping hosts
@@ -25,7 +23,7 @@
 #         dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
 
     - name: Install .NET 6.0
-      ansible.windows.win_package:
+      win_package:
         path: file:////ptmvm02/Deployment/CrowdSec/dotnet-runtime-6.0.16-win-x64.exe
         product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
         arguments:
@@ -65,7 +63,7 @@
 
     - name: Install CrowdSec agent
       #win_shell: C:\temp\crowdsec_1.5.1.msi /S
-      ansible.windows.win_package:
+      win_package:
         path: file:////ptmvm02/Deployment/CrowdSec/crowdsec_1.5.1.msi
         product_id: '{7795C40F-5278-4AF6-B2FF-D2E7CACC678F}'
         state: present
@@ -81,7 +79,7 @@
 
     - name: Install cs-windows-firewall-bouncer
       #win_shell: C:\Temp\cs_windows_firewall_bouncer_setup.msi /S
-      ansible.windows.win_package:
+      win_package:
         path: file:////ptmvm02/Deployment/CrowdSec/cs_windows_firewall_bouncer_setup.msi
         product_id: '{C6F28E13-50FC-4D71-B6D9-B4C92C3CB6DB}'
         state: present
