@@ -22,14 +22,14 @@
 #         url: file:////ptmvm02/Deployment/CrowdSec/dotnet-runtime-6.0.16-win-x64.exe
 #         dest: C:\Temp\dotnet-runtime-6.0.16-win-x64.exe
 
-- name: Install .NET 6.0
-  ansible.windows.win_package:
-    path: file:////ptmvm02/Deployment/CrowdSec/dotnet-runtime-6.0.16-win-x64.exe
-    product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
-    arguments:
-    - --install
-    - --quiet
-    - --norestart
+    - name: Install .NET 6.0
+      ansible.windows.win_package:
+        path: file:////ptmvm02/Deployment/CrowdSec/dotnet-runtime-6.0.16-win-x64.exe
+        product_id: '{C71E93D2-B8B4-4858-B2A1-4C967DBC1C5F}'
+        arguments:
+        - --install
+        - --quiet
+        - --norestart
 
 #     - name: Remove .NET 6.0 installer
 #       win_file:
