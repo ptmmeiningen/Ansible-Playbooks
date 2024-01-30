@@ -1,6 +1,6 @@
 
 - name: DHCP Leases Management
-  hosts: windows_hosts
+  hosts: all
   vars:
     DhcpServer: Localhost
     ScopeId: 192.168.0.0
