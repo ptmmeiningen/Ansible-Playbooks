@@ -14,13 +14,13 @@
 
   tasks:
   - name: Send magic Wake-On-Lan packet to turn on individual systems via gateway {{ wake_server }}
-    community.general.wakeonlan:
+    wakeonlan:
       mac: '{{ macaddress }}'
       broadcast: 192.168.0.255
     delegate_to: '{{ wake_server }}'
     when: wake_server is defined
 
-  - community.general.wakeonlan:
+  - wakeonlan:
       mac: '{{ macaddress }}'
       broadcast: 192.168.0.255
     delegate_to: localhost
