@@ -1,5 +1,5 @@
 - name: Get MAC address
-  hosts: your_host_name
+  hosts: computers
   gather_facts: yes
 
   tasks:
