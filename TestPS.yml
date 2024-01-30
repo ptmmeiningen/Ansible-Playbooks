@@ -1,0 +1,46 @@
+
+- name: DHCP Leases Management
+  hosts: windows_hosts
+  vars:
+    DhcpServer: Localhost
+    ScopeId: 192.168.0.0
+    CsvPath: "\\ptmvm02\Deployment\Scripts\MacAddressesClients2.csv"
+
+  tasks:
+    - name: Check if CSV exists and load existing data
+      win_shell: |
+        if (Test-Path {{ CsvPath }}) {
+            Import-Csv {{ CsvPath }}
+        } else {
+            @()
+        }
+      register: ExistingData
+
+    - name: Query new leases and update data
+      win_shell: |
+        $NewLeases = Get-DhcpServerv4Lease -ComputerName {{ DhcpServer }} -ScopeId {{ ScopeId }} | Where-Object { $_.HostName -like "PTM*" } | ForEach-Object {
+            $HostNameWithoutDomain = $_.HostName.Split('.')[0]
+            [PSCustomObject]@{
+                HostName = $HostNameWithoutDomain
+                MACAddress = $_.ClientId
+            }
+        }
+        # Comparison and appending logic goes here
+      register: UpdatedData
+
+    - name: Save updated data to CSV
+      win_shell: |
+        {{ UpdatedData.stdout }} | Export-Csv {{ CsvPath }} -NoTypeInformation -Force
+
+    - name: Read and sort the updated CSV data
+      win_shell: |
+        $FinalData = Import-Csv {{ CsvPath }}
+        $SortedData = $FinalData | Sort-Object -Property HostName
+        $SortedData | ForEach-Object {
+            Write-Output "$($_.HostName) mac_address=$($_.MACAddress)"
+        }
+      register: SortedData
+
+    - name: Show sorted data
+      debug:
+        var: SortedData.stdout
