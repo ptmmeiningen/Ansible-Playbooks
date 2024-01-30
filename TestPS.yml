@@ -4,7 +4,7 @@
   vars:
     DhcpServer: Localhost
     ScopeId: 192.168.0.0
-    CsvPath: "\\ptmvm02\Deployment\Scripts\MacAddressesClients2.csv"
+    CsvPath: "\\\ptmvm02\\Deployment\\Scripts\\MacAddressesClients2.csv"
 
   tasks:
     - name: Check if CSV exists and load existing data
