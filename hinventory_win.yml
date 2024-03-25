@@ -21,11 +21,3 @@
       win_mapped_drive:
         letter: Z
         path: \\ptmvm02\Deployment\hinventoryWindows
-
-     - name: H-Inventory ausführen
-       win_shell: 'Z:\scan.bat'
-
-     - name: Delete any mapped drives under Z
-       win_mapped_drive:
-         letter: Z
-         state: absent
