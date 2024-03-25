@@ -16,7 +16,7 @@
 - name: Create a mapped drive under Z
   hosts: reachable
   gather_facts: no
-  community.windows.win_mapped_drive:
+  win_mapped_drive:
     letter: Z
     path: \\ptmvm02\Deployment\hinventoryWindows
       
@@ -30,6 +30,6 @@
 - name: Delete any mapped drives under Z
   hosts: reachable
   gather_facts: no
-  community.windows.win_mapped_drive:
+  win_mapped_drive:
     letter: Z
     state: absent
