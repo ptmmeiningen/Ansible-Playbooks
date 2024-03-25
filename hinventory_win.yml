@@ -12,6 +12,13 @@
       group_by:
         key: reachable
       when: ping_result is success
+
+- name: Create a mapped drive under Z
+  hosts: reachable
+  gather_facts: no
+  community.windows.win_mapped_drive:
+    letter: Z
+    path: \\ptmvm02\Deployment\hinventoryWindows
       
 - name: Ausführen von H-Inventory auf Windows-Servern
   hosts: reachable
@@ -19,3 +26,10 @@
   tasks:
     - name: H-Inventory ausführen
       win_shell: '\\ptmvm02\Deployment\hinventoryWindows\scan.bat'
+
+- name: Delete any mapped drives under Z
+  hosts: reachable
+  gather_facts: no
+  community.windows.win_mapped_drive:
+    letter: Z
+    state: absent
