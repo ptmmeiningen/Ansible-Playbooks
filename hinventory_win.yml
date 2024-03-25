@@ -13,23 +13,19 @@
         key: reachable
       when: ping_result is success
 
-- name: Create a mapped drive under Z
-  hosts: reachable
-  gather_facts: no
-  win_mapped_drive:
-    letter: Z
-    path: \\ptmvm02\Deployment\hinventoryWindows
-      
-- name: Ausführen von H-Inventory auf Windows-Servern
+- name: Ausführen von H-Inventory auf Windows-Servern 
   hosts: reachable
   gather_facts: no
   tasks:
-    - name: H-Inventory ausführen
-      win_shell: 'Z:\scan.bat'
+    - name: Create a mapped drive under Z
+      win_mapped_drive:
+        letter: Z
+        path: \\ptmvm02\Deployment\hinventoryWindows
 
-- name: Delete any mapped drives under Z
-  hosts: reachable
-  gather_facts: no
-  win_mapped_drive:
-    letter: Z
-    state: absent
+     - name: H-Inventory ausführen
+       win_shell: 'Z:\scan.bat'
+
+     - name: Delete any mapped drives under Z
+       win_mapped_drive:
+         letter: Z
+         state: absent
