@@ -25,7 +25,7 @@
   gather_facts: no
   tasks:
     - name: H-Inventory ausführen
-      win_shell: '\\ptmvm02\Deployment\hinventoryWindows\scan.bat'
+      win_shell: 'Z:\scan.bat'
 
 - name: Delete any mapped drives under Z
   hosts: reachable
