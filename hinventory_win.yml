@@ -21,6 +21,9 @@
       win_mapped_drive:
         letter: Z
         path: \\ptmvm02\Deployment\hinventoryWindows
+        state: present
+        username: 'ad\cb'
+        password: 'Br290805!'
     
     #- name: H-Inventory ausführen
     #  win_command: 'Z:\hinventoryWindows\scan.bat'
