@@ -13,17 +13,22 @@
         key: reachable
       when: ping_result is success
 
-- name: Ausführen von H-Inventory auf Windows-Servern 
+
+- name: Mount, execute a command, and unmount a drive on Windows hosts
   hosts: reachable
   gather_facts: no
   tasks:
-    - name: Create a mapped drive under Z
-      win_command: net use "Z:" "\192.168.120.102\Deployment\hinventoryWindows" /user:"ad\cb" "Br290805" /persistent:yes
-    
-    - name: H-Inventory ausführen
-      win_command: 'Z:\scan.bat'
+    - name: Mount the network drive Z
+      win_mount:
+        path: Z:
+        src: '\\ptmvm02\Deployment\hinventoryWindows'
+        state: present
 
-    - name: Delete any mapped drives under Z
-      win_mapped_drive:
-        letter: Z
+    #- name: Execute a command
+    #  win_command: your_command_here
+    #  # Ersetze 'your_command_here' mit dem tatsächlichen Befehl, den du ausführen möchtest
+
+    - name: Remove the network drive Z
+      win_mount:
+        path: Z:
         state: absent
