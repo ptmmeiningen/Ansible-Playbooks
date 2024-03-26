@@ -14,21 +14,11 @@
       when: ping_result is success
 
 
-- name: Mount, execute a command, and unmount a drive on Windows hosts
+- name: Ausführen von H-Inventory auf Windows-Servern 
   hosts: reachable
   gather_facts: no
   tasks:
-    - name: Mount the network drive Z
-      win_mount:
-      path: Z:
-      src: '\\ptmvm02\Deployment\hinventoryWindows'
-      state: present
-
-    #- name: Execute a command
-    #  win_command: your_command_here
-    #  # Ersetze 'your_command_here' mit dem tatsächlichen Befehl, den du ausführen möchtest
-
-    - name: Remove the network drive Z
-      win_mount:
-        path: Z:
-        state: absent
+    - name: Wechsel in Share und führe scan.bat aus
+      win_shell: |
+        cd \\ptmvm02\Deployment\hinventoryWindows
+        cscript \\ptmvm02\Deployment\hinventoryWindows\hinventoryWindows.vbs /v /t 127.0.0.1
