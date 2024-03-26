@@ -1,0 +1,29 @@
+---
+- name: Check reachable hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping hosts
+      win_ping:
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Group by reachable hosts
+      group_by:
+        key: reachable
+      when: ping_result is success
+
+- name: Ausführen von H-Inventory auf Windows-Servern 
+  hosts: reachable
+  gather_facts: no
+  tasks:
+    - name: Create a mapped drive under Z
+      win_command: net use "Z:" "\192.168.120.102\Deployment\hinventoryWindows" /user:"ad\cb" "Br290805" /persistent:yes
+    
+    - name: H-Inventory ausführen
+      win_command: 'Z:\scan.bat'
+
+    - name: Delete any mapped drives under Z
+      win_mapped_drive:
+        letter: Z
+        state: absent
